@@ -42,7 +42,7 @@ func ParseProjectInfo(element *Element) ProjectInfo {
 	return info
 }
 
-// parseTempo extracts the tempo from the attribute string (simple example)
+// Extract the tempo from the attribute string (simple example)
 func parseTempo(attr string) float64 {
 	// Example: "TEMPO 120.000"
 	parts := strings.Split(attr, " ")
