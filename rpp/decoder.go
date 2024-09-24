@@ -47,7 +47,7 @@ func (l *Lexer) NextToken() Token {
 	return token
 }
 
-// tokenize breaks the input into tokens
+// Tokenize breaks the input into tokens
 func tokenize(input string) []Token {
 	var tokens []Token
 	lines := strings.Split(input, "\n")
