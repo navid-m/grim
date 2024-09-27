@@ -67,7 +67,11 @@ func (p *Parser) parseElement() (*Element, error) {
 		return nil, fmt.Errorf("expected STRING token, got %s", token.Type)
 	}
 
-	root := &Element{Tag: token.Value, Attrib: []string{}, Children: []*Element{}}
+	root := &Element{
+		Tag:      token.Value,
+		Attrib:   []string{},
+		Children: []*Element{},
+	}
 
 	for {
 		token := p.lexer.NextToken()
