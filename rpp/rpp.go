@@ -2,12 +2,17 @@ package rpp
 
 import (
 	"io"
+	"log"
 	"os"
 	"strings"
 )
 
 // Load and parse an RPP file from a given path
 func Load(filePath string) (*Element, error) {
+	if !strings.Contains(strings.ToLower(filePath), ".rpp") {
+		log.Fatalf("Invalid file passed. Pass a valid RPP file.")
+	}
+
 	file, err := os.Open(filePath)
 
 	if err != nil {
