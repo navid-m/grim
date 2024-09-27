@@ -175,8 +175,6 @@ func parseFXChain(element *Element) FXChain {
 	return chain
 }
 
-// Helper parse functions
-
 // Parse float from an attribute string (e.g., "POSITION 1.234")
 func parseFloat(attr string) float64 {
 	parts := strings.Fields(attr)
@@ -241,6 +239,7 @@ func parsePresetName(attr string) string {
 // Stringer implementation for ProjectInfo
 func (p ProjectInfo) String() string {
 	var sb strings.Builder
+
 	sb.WriteString(fmt.Sprintf("Project Name: %s\n", p.ProjectName))
 	sb.WriteString(fmt.Sprintf("Original Platform: %s\n", p.OriginalPlatform))
 	sb.WriteString(fmt.Sprintf("Tempo: %.2f\n", p.Tempo))
