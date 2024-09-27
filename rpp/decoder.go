@@ -2,7 +2,6 @@ package rpp
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -12,53 +11,20 @@ const (
 	NEWLINE = "\n"
 )
 
-// An element in the RPP file
-type Element struct {
-	RootFileName string
-	Tag          string
-	Attrib       []string
-	Children     []*Element
-}
-
-func (e Element) String() string {
-	toret := ""
-
-	if e.RootFileName != "" {
-		toret += fmt.Sprintln("Root File Name: ", e.RootFileName)
+// Start parsing
+func (p *Parser) Parse() (*Element, error) {
+	token := p.lexer.NextToken()
+	if token.Type != "OPEN" {
+		return nil, fmt.Errorf("expected opening token, got %s", token.Type)
 	}
-
-	toret += fmt.Sprintln("Tag: ", e.Tag)
-
-	for i, attrib := range e.Attrib {
-		toret += fmt.Sprintln("\t - Attrib #" + strconv.Itoa(i) + ": " + attrib)
+	element, err := p.parseElement()
+	if err != nil {
+		return nil, fmt.Errorf("error parsing element: %v", err)
 	}
-
-	for i, child := range e.Children {
-		toret += fmt.Sprintln("\t - Child #"+strconv.Itoa(i)+": ", *child)
-	}
-
-	return toret
+	return element, nil
 }
 
-// Lexer to tokenize RPP content
-type Lexer struct {
-	input  string
-	tokens []Token
-	pos    int
-}
-
-// Some lexeme
-type Token struct {
-	Type  string
-	Value string
-}
-
-// Create new lexer for the input
-func NewLexer(input string) *Lexer {
-	return &Lexer{input: input, tokens: tokenize(input)}
-}
-
-// NextToken returns the next token in the lexer
+// Returns the next token in the lexer
 func (l *Lexer) NextToken() Token {
 	if l.pos >= len(l.tokens) {
 		return Token{Type: "", Value: ""}
@@ -68,7 +34,7 @@ func (l *Lexer) NextToken() Token {
 	return token
 }
 
-// Tokenize breaks the input into tokens, handling nested tags and attributes
+// Breaks the input into tokens while handling nested tags and attributes
 func tokenize(input string) []Token {
 	var tokens []Token
 	lines := strings.Split(input, "\n")
@@ -92,29 +58,6 @@ func tokenize(input string) []Token {
 	}
 
 	return tokens
-}
-
-// Currently a lexer container
-type Parser struct {
-	lexer *Lexer
-}
-
-// Initialize a parser
-func NewParser(input string) *Parser {
-	return &Parser{lexer: NewLexer(input)}
-}
-
-// Start the parsing process
-func (p *Parser) Parse() (*Element, error) {
-	token := p.lexer.NextToken()
-	if token.Type != "OPEN" {
-		return nil, fmt.Errorf("expected opening token, got %s", token.Type)
-	}
-	element, err := p.parseElement()
-	if err != nil {
-		return nil, fmt.Errorf("error parsing element: %v", err)
-	}
-	return element, nil
 }
 
 // Parse some element, including attributes and nested children
