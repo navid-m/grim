@@ -85,7 +85,7 @@ func parseTempo(attr string) float64 {
 			return tempo
 		}
 	}
-	return 120.0
+	return defaultTempo
 }
 
 // Parse sample rate from the sample rate attribute
