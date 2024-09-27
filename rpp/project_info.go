@@ -5,14 +5,18 @@ import (
 	"strings"
 )
 
+const defaultTempo float64 = 100
+const defaultSampleRate int = 44100
+const defaultPlatform string = "Unknown"
+
 // Get project information from the Element tree
 func ParseProjectInfo(element *Element) ProjectInfo {
 	info := ProjectInfo{
 		ProjectName:      cleanProjectName(element.RootFileName),
-		OriginalPlatform: "Unknown",
-		Tempo:            120.0,
+		OriginalPlatform: defaultPlatform,
+		Tempo:            defaultTempo,
 		LoopEnabled:      false,
-		SampleRate:       44100,
+		SampleRate:       defaultSampleRate,
 		Tracks:           Tracks{},
 		Items:            []Item{},
 		FXChains:         []FXChain{},
