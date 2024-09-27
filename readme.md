@@ -1,6 +1,7 @@
 # Grim
 
 Library for parsing REAPER `.rpp` project files (from the Reaper DAW).
+Like [this](https://github.com/Perlence/rpp) but as a useful library.
 
 ## Features
 

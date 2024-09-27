@@ -117,7 +117,7 @@ func (p ProjectInfo) String() string {
 	sb.WriteString(fmt.Sprintf("Project Name: %s\n", p.ProjectName))
 	sb.WriteString(fmt.Sprintf("Original Platform: %s\n", p.OriginalPlatform))
 	sb.WriteString(fmt.Sprintf("Tempo: %.2f\n", p.Tempo))
-	sb.WriteString(fmt.Sprintf("Loop enabled: %s\n", strconv.FormatBool(p.LoopEnabled)))
+	sb.WriteString(fmt.Sprintf("Loop: %s\n", strconv.FormatBool(p.LoopEnabled)))
 	sb.WriteString(fmt.Sprintf("Sample Rate: %d\n", p.SampleRate))
 	sb.WriteString(fmt.Sprintf("Tracks: %d\n", len(p.Tracks.TrackList)))
 	sb.WriteString(fmt.Sprintf("FX Chains: %d\n", len(p.FXChains)))
