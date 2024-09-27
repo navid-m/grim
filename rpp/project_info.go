@@ -9,8 +9,13 @@ import (
 	"github.com/rodaine/table"
 )
 
-// An FX chain item
+// The FX chain itself
 type FXChain struct {
+	Instances []FXInstance
+}
+
+// An FX chain item
+type FXInstance struct {
 	WndRect    [4]int
 	Show       int
 	LastSel    int
@@ -40,8 +45,9 @@ type Source struct {
 
 // Some track in the playlist
 type Track struct {
-	Number int
-	GUID   string
+	Number   int
+	GUID     string
+	FXChains []FXChain
 }
 
 // Bunch of tracks
@@ -108,32 +114,37 @@ func ParseProjectInfo(element *Element) ProjectInfo {
 		case child.Tag == "ITEM":
 			item := parseItem(child)
 			info.Items = append(info.Items, item)
-		case child.Tag == "FXCHAIN":
-			fxChain := parseFXChain(child)
-			info.FXChains = append(info.FXChains, fxChain)
 		case strings.HasPrefix(child.Tag, "TRACK"):
 			trackCount++
-			info.Tracks.TrackList = append(
-				info.Tracks.TrackList, Track{
-					Number: trackCount,
-					GUID: strings.Replace(
-						child.Tag,
-						"TRACK ",
-						"",
-						-1,
-					),
-				},
-			)
+			track := Track{
+				Number: trackCount,
+				GUID:   strings.Replace(child.Tag, "TRACK ", "", -1),
+			}
+
+			// Parse FX chains for this track
 			for _, trackChild := range child.Children {
 				if trackChild.Tag == "FXCHAIN" {
 					fxChain := parseFXChain(trackChild)
-					info.FXChains = append(info.FXChains, fxChain)
+					track.FXChains = append(track.FXChains, fxChain)
+					info.FXChains = append(info.FXChains, fxChain) // Add to project-level FX chains
 				}
 			}
 
+			info.Tracks.TrackList = append(info.Tracks.TrackList, track)
 		}
 	}
 	return info
+}
+
+func parseFXChain(element *Element) FXChain {
+	chain := FXChain{}
+	for _, child := range element.Children {
+		if strings.HasPrefix(child.Tag, "VST") || strings.HasPrefix(child.Tag, "JS") {
+			instance := parseFXInstance(child)
+			chain.Instances = append(chain.Instances, instance)
+		}
+	}
+	return chain
 }
 
 // Parse tempo from the tempo attribute
@@ -195,70 +206,54 @@ func parseSource(element *Element) Source {
 	return source
 }
 
-// Parse FX chain information
-func parseFXChain(element *Element) FXChain {
-	chain := FXChain{}
+// Parse FX instance information
+func parseFXInstance(element *Element) FXInstance {
+	instance := FXInstance{}
+
+	if pros := parseVst(element.Tag); len(pros) > 1 {
+		instance.Vst = pros[1]
+		if strings.TrimSpace(instance.Vst) == "" {
+			instance.Vst = pros[0]
+		}
+	}
+
 	for _, attr := range element.Attrib {
 		switch {
 		case strings.HasPrefix(attr, "WNDRECT"):
-			chain.WndRect = parseWndRect(attr)
+			instance.WndRect = parseWndRect(attr)
 		case strings.HasPrefix(attr, "PRESETNAME"):
-			chain.PresetName = parsePresetName(attr)
+			instance.PresetName = parsePresetName(attr)
 		case strings.HasPrefix(attr, "FXID"):
-			chain.FxId = parseFxId(attr)
-		case strings.HasPrefix(attr, "LASTSEL"):
-			chain.LastSel = parseInt(attr)
-		case strings.HasPrefix(attr, "DOCKED"):
-			chain.Docked = parseInt(attr)
+			instance.FxId = parseFxId(attr)
 		case strings.HasPrefix(attr, "BYPASS"):
-			chain.Bypass = parseBypass(attr)
+			instance.Bypass = parseBypass(attr)
 		}
 	}
 
-	for _, child := range element.Children {
-		parsed := parseVst(child)
-		if len(parsed) > 1 {
-			chain.Vst = parsed[1]
-		}
-	}
-
-	return chain
+	return instance
 }
 
-func parseVst(element *Element) []string {
-	if len(element.Attrib) > 0 {
-		tag := element.Tag
-		start := strings.Index(tag, "\"")
-		end := strings.LastIndex(tag, "\"")
+func parseVst(tag string) []string {
+	start := strings.Index(tag, "\"")
+	end := strings.LastIndex(tag, "\"")
 
-		if start != -1 && end != -1 && end > start {
-			substring := tag[start : end+1]
+	if start != -1 && end != -1 && end > start {
+		substring := tag[start : end+1]
 
-			parts := strings.FieldsFunc(substring, func(r rune) bool {
-				return r == '"'
-			})
+		parts := strings.FieldsFunc(substring, func(r rune) bool {
+			return r == '"'
+		})
 
-			var result []string
-			for _, part := range parts {
-				if part != "" {
-					result = append(result, strings.TrimSpace(part))
-				}
+		var result []string
+		for _, part := range parts {
+			if part != "" {
+				result = append(result, strings.TrimSpace(part))
 			}
-
-			return result
 		}
+
+		return result
 	}
 	return nil
-}
-
-func parseInt(attr string) int {
-	parts := strings.Fields(attr)
-	if len(parts) > 1 {
-		if value, err := strconv.Atoi(parts[1]); err == nil {
-			return value
-		}
-	}
-	return 0
 }
 
 func parseBypass(attr string) [3]int {
@@ -377,6 +372,22 @@ func (p ProjectInfo) AsTable() table.Table {
 	tbl.AddRow("Tracks", len(p.Tracks.TrackList))
 	tbl.AddRow("FX Chains", len(p.FXChains))
 
+	for currentIter, chain := range p.FXChains {
+		for instanceIter, instance := range chain.Instances {
+			if strings.TrimSpace(instance.Vst) == "" {
+				continue
+			}
+			tbl.AddRow(fmt.Sprintf("FXC %d I %d VST Name", currentIter, instanceIter), instance.Vst)
+			if strings.TrimSpace(instance.PresetName) != "" {
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d Preset Name: %s", currentIter, instanceIter, instance.PresetName))
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d ID: %s", currentIter, instanceIter, instance.FxId))
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d Bypass", currentIter, instanceIter), instance.Bypass)
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d Docked", currentIter, instanceIter), instance.Docked)
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d Last Selection", currentIter, instanceIter), instance.LastSel)
+			}
+		}
+	}
+
 	if len(p.Items) != 0 {
 		for _, item := range p.Items {
 			tbl.AddRow("Items", item.String())
@@ -387,7 +398,7 @@ func (p ProjectInfo) AsTable() table.Table {
 }
 
 // Stringer implementation for FXChain
-func (f FXChain) String() string {
+func (f FXInstance) String() string {
 	return fmt.Sprintf("\t- Preset: %s, FXID: %s, VST: %s, WndRect: %v, Show: %d, LastSel: %d, Docked: %d, Bypass: %v",
 		f.PresetName, f.FxId, f.Vst, f.WndRect, f.Show, f.LastSel, f.Docked, f.Bypass)
 }
@@ -401,6 +412,15 @@ func (i Item) String() string {
 // Stringer implementation for Track
 func (t Track) String() string {
 	return fmt.Sprintf("No: %d, GUID: %s", t.Number, t.GUID)
+}
+
+// Stringer implementation for Track
+func (t FXChain) String() string {
+	res := ""
+	for _, x := range t.Instances {
+		res += x.String()
+	}
+	return res
 }
 
 // Stringer implementation for Tracks
