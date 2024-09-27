@@ -9,12 +9,17 @@ import (
 // Load loads and parses an RPP file from the given path
 func Load(filePath string) (*Element, error) {
 	file, err := os.Open(filePath)
+
 	if err != nil {
 		return nil, err
 	}
+
 	defer file.Close()
 
-	return LoadFromReader(file)
+	toret, err := LoadFromReader(file)
+	toret.RootFileName = filePath
+
+	return toret, err
 }
 
 // LoadFromReader parses an RPP file from an io.Reader
