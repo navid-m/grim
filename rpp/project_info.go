@@ -119,6 +119,13 @@ func ParseProjectInfo(element *Element) ProjectInfo {
 					),
 				},
 			)
+			for _, trackChild := range child.Children {
+				if trackChild.Tag == "FXCHAIN" {
+					fxChain := parseFXChain(trackChild)
+					info.FXChains = append(info.FXChains, fxChain)
+				}
+			}
+
 		}
 	}
 	return info
@@ -194,9 +201,68 @@ func parseFXChain(element *Element) FXChain {
 			chain.PresetName = parsePresetName(attr)
 		case strings.HasPrefix(attr, "FXID"):
 			chain.FxId = parseFxId(attr)
+		case strings.HasPrefix(attr, "LASTSEL"):
+			chain.LastSel = parseInt(attr)
+		case strings.HasPrefix(attr, "DOCKED"):
+			chain.Docked = parseInt(attr)
+		case strings.HasPrefix(attr, "BYPASS"):
+			chain.Bypass = parseBypass(attr)
 		}
 	}
+
+	for _, child := range element.Children {
+		parsed := parseVst(child)
+		if len(parsed) > 1 {
+			chain.Vst = parsed[2]
+		}
+	}
+
 	return chain
+}
+
+func parseVst(element *Element) []string {
+	if len(element.Attrib) > 0 {
+		tag := element.Tag
+		start := strings.Index(tag, "\"")
+		end := strings.LastIndex(tag, "\"")
+
+		if start != -1 && end != -1 && end > start {
+			substring := tag[start : end+1]
+
+			parts := strings.FieldsFunc(substring, func(r rune) bool {
+				return r == '"'
+			})
+
+			var result []string
+			for _, part := range parts {
+				if part != "" {
+					result = append(result, strings.TrimSpace(part))
+				}
+			}
+
+			return result
+		}
+	}
+	return nil
+}
+
+func parseInt(attr string) int {
+	parts := strings.Fields(attr)
+	if len(parts) > 1 {
+		if value, err := strconv.Atoi(parts[1]); err == nil {
+			return value
+		}
+	}
+	return 0
+}
+
+func parseBypass(attr string) [3]int {
+	parts := strings.Fields(attr)
+	var bypass [3]int
+	for i := 1; i <= 3 && i < len(parts); i++ {
+		bypass[i-1], _ = strconv.Atoi(parts[i])
+	}
+	return bypass
 }
 
 // Parse float from an attribute string (e.g., "POSITION 1.234")
@@ -270,13 +336,14 @@ func (p ProjectInfo) String() string {
 	sb.WriteString(fmt.Sprintf("Loop enabled: %s\n", strconv.FormatBool(p.LoopEnabled)))
 	sb.WriteString(fmt.Sprintf("Sample Rate: %d\n", p.SampleRate))
 	sb.WriteString(fmt.Sprintf("Tracks: %d\n", len(p.Tracks.TrackList)))
+	sb.WriteString(fmt.Sprintf("FX Chains: %d\n", len(p.FXChains)))
 
-	if len(p.FXChains) != 0 {
-		sb.WriteString("FX Chains:\n")
-		for _, fx := range p.FXChains {
-			sb.WriteString(fx.String())
-		}
-	}
+	// if len(p.FXChains) != 0 {
+	// 	for c, fx := range p.FXChains {
+	// 		sb.WriteString("FX Chain #" + strconv.Itoa(c+1) + ":\n")
+	// 		sb.WriteString(fx.String())
+	// 	}
+	// }
 
 	if len(p.Items) != 0 {
 		sb.WriteString("Items:\n")
@@ -291,7 +358,7 @@ func (p ProjectInfo) String() string {
 
 // Stringer implementation for FXChain
 func (f FXChain) String() string {
-	return fmt.Sprintf("Preset: %s, FXID: %s, VST: %s, WndRect: %v, Show: %d, LastSel: %d, Docked: %d, Bypass: %v",
+	return fmt.Sprintf("\t- Preset: %s, FXID: %s, VST: %s, WndRect: %v, Show: %d, LastSel: %d, Docked: %d, Bypass: %v",
 		f.PresetName, f.FxId, f.Vst, f.WndRect, f.Show, f.LastSel, f.Docked, f.Bypass)
 }
 
