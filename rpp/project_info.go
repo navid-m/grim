@@ -373,17 +373,19 @@ func (p ProjectInfo) AsTable() table.Table {
 	tbl.AddRow("FX Chains", len(p.FXChains))
 
 	for currentIter, chain := range p.FXChains {
+		oneIndexedCurrent := currentIter + 1
+
 		for instanceIter, instance := range chain.Instances {
 			if strings.TrimSpace(instance.Vst) == "" {
 				continue
 			}
-			tbl.AddRow(fmt.Sprintf("FXC %d I %d VST Name", currentIter, instanceIter), instance.Vst)
+			tbl.AddRow(fmt.Sprintf("FXC %d I %d VST Name", oneIndexedCurrent, instanceIter), instance.Vst)
 			if strings.TrimSpace(instance.PresetName) != "" {
-				tbl.AddRow(fmt.Sprintf("FXC %d I %d Preset Name: %s", currentIter, instanceIter, instance.PresetName))
-				tbl.AddRow(fmt.Sprintf("FXC %d I %d ID: %s", currentIter, instanceIter, instance.FxId))
-				tbl.AddRow(fmt.Sprintf("FXC %d I %d Bypass", currentIter, instanceIter), instance.Bypass)
-				tbl.AddRow(fmt.Sprintf("FXC %d I %d Docked", currentIter, instanceIter), instance.Docked)
-				tbl.AddRow(fmt.Sprintf("FXC %d I %d Last Selection", currentIter, instanceIter), instance.LastSel)
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d Preset Name: %s", oneIndexedCurrent, instanceIter, instance.PresetName))
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d ID: %s", oneIndexedCurrent, instanceIter, instance.FxId))
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d Bypass", oneIndexedCurrent, instanceIter), instance.Bypass)
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d Docked", oneIndexedCurrent, instanceIter), instance.Docked)
+				tbl.AddRow(fmt.Sprintf("FXC %d I %d Last Selection", oneIndexedCurrent, instanceIter), instance.LastSel)
 			}
 		}
 	}
