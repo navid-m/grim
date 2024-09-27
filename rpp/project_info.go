@@ -60,6 +60,7 @@ type ProjectInfo struct {
 	FXChains         []FXChain
 }
 
+// Remove non-pure-name things from project name
 func cleanProjectName(s string) string {
 	initName := ""
 	if strings.LastIndex(s, "/") == -1 {

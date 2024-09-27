@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// Load loads and parses an RPP file from the given path
+// Load and parse an RPP file from a given path
 func Load(filePath string) (*Element, error) {
 	file, err := os.Open(filePath)
 
@@ -15,14 +15,13 @@ func Load(filePath string) (*Element, error) {
 	}
 
 	defer file.Close()
-
 	toret, err := LoadFromReader(file)
 	toret.RootFileName = filePath
 
 	return toret, err
 }
 
-// LoadFromReader parses an RPP file from an io.Reader
+// Parses an RPP file from a reader
 func LoadFromReader(r io.Reader) (*Element, error) {
 	content, err := io.ReadAll(r)
 	if err != nil {
@@ -32,12 +31,13 @@ func LoadFromReader(r io.Reader) (*Element, error) {
 	return parser.Parse()
 }
 
-// Dump writes the parsed Element tree to a writer in a human-readable format
+// Write the parsed Element tree to a writer
 func Dump(element *Element, writer io.Writer) error {
 	_, err := writer.Write([]byte(elementToString(element, 0)))
 	return err
 }
 
+// Converts element to string
 func elementToString(e *Element, indent int) string {
 	result := strings.Repeat(" ", indent*2) + "<" + e.Tag + "\n"
 	for _, attr := range e.Attrib {
