@@ -100,7 +100,7 @@ func TestProjectInfoString(t *testing.T) {
 	expectedOutput := `Project Name: Test Project
 Original Platform: Windows (win64)
 Tempo: 128.00
-Loop enabled: true
+Loop: true
 Sample Rate: 44100
 Tracks: 1
 FX Chains: 1
