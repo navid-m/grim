@@ -3,3 +3,6 @@ vendor
 *.exe
 *.test
 *.out
+*Backups
+*.txt
+*.json

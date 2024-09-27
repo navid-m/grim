@@ -250,18 +250,34 @@ func (p ProjectInfo) String() string {
 	if len(p.FXChains) != 0 {
 		sb.WriteString("FX Chains:\n")
 		for _, fx := range p.FXChains {
-			sb.WriteString(fmt.Sprintf("  Preset: %s, FXID: %s\n", fx.PresetName, fx.FxId))
+			sb.WriteString(fx.String())
 		}
 	}
 
 	if len(p.Items) != 0 {
 		sb.WriteString("Items:\n")
 		for _, item := range p.Items {
-			sb.WriteString(fmt.Sprintf("  Name: %s, Position: %.2f, Length: %.2f, Playrate: %.2f, Source: %s\n",
-				item.Name, item.Position, item.Length, item.Playrate, item.Source.File))
+			sb.WriteString(item.String())
 		}
 
 	}
 
 	return strings.TrimSuffix(sb.String(), "\n")
+}
+
+// Stringer implementation for FXChain
+func (f FXChain) String() string {
+	return fmt.Sprintf("Preset: %s, FXID: %s, VST: %s, WndRect: %v, Show: %d, LastSel: %d, Docked: %d, Bypass: %v",
+		f.PresetName, f.FxId, f.Vst, f.WndRect, f.Show, f.LastSel, f.Docked, f.Bypass)
+}
+
+// Stringer implementation for Item
+func (i Item) String() string {
+	return fmt.Sprintf("Name: %s, Position: %.2f, Length: %.2f, Playrate: %.2f, Source: %s, GUID: %s",
+		i.Name, i.Position, i.Length, i.Playrate, i.Source.File, i.Guid)
+}
+
+// Stringer implementation for Source
+func (s Source) String() string {
+	return fmt.Sprintf("Type: %s, File: %s", s.Type, s.File)
 }
