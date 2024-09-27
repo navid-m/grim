@@ -8,10 +8,13 @@ import (
 
 func TestOpenFile(t *testing.T) {
 	project, err := rpp.Load("sample_project.rpp")
+
 	if err != nil {
 		t.Error("Failure while loading test project: ", err)
 	}
+
 	projectInfo := rpp.ParseProjectInfo(project)
+
 	if projectInfo.Tempo != 120 || projectInfo.ProjectName != "sample_project" {
 		t.Errorf(
 			"Wrong information:\n\ttempo -> %f\n\tname -> %s",
