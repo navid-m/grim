@@ -47,10 +47,17 @@ type ProjectInfo struct {
 	FXChains         []FXChain
 }
 
+func cleanProjectName(s string) string {
+	if strings.LastIndex(s, "/") == -1 {
+		return strings.Replace(s, ".rpp", "", -1)
+	}
+	return strings.Replace(s[strings.LastIndex(s, "/")+1:], ".rpp", "", -1)
+}
+
 // Extract general project information from the Element tree
 func ParseProjectInfo(element *Element) ProjectInfo {
 	info := ProjectInfo{
-		ProjectName:      element.RootFileName,
+		ProjectName:      cleanProjectName(element.RootFileName),
 		OriginalPlatform: "Unknown",
 		Tempo:            120.0, // Default tempo value
 		LoopEnabled:      false,
