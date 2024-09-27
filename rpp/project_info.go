@@ -211,7 +211,7 @@ func parseFile(attr string) string {
 	return ""
 }
 
-// Parse window rectangle for FX chain (e.g., "WNDRECT 0 0 400 300")
+// Parse window rectangle for FX chain
 func parseWndRect(attr string) [4]int {
 	parts := strings.Fields(attr)
 	if len(parts) >= 5 {
