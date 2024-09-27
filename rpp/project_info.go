@@ -213,7 +213,7 @@ func parseFXChain(element *Element) FXChain {
 	for _, child := range element.Children {
 		parsed := parseVst(child)
 		if len(parsed) > 1 {
-			chain.Vst = parsed[2]
+			chain.Vst = parsed[1]
 		}
 	}
 
@@ -338,12 +338,12 @@ func (p ProjectInfo) String() string {
 	sb.WriteString(fmt.Sprintf("Tracks: %d\n", len(p.Tracks.TrackList)))
 	sb.WriteString(fmt.Sprintf("FX Chains: %d\n", len(p.FXChains)))
 
-	// if len(p.FXChains) != 0 {
-	// 	for c, fx := range p.FXChains {
-	// 		sb.WriteString("FX Chain #" + strconv.Itoa(c+1) + ":\n")
-	// 		sb.WriteString(fx.String())
-	// 	}
-	// }
+	if len(p.FXChains) != 0 {
+		for c, fx := range p.FXChains {
+			sb.WriteString("FX Chain #" + strconv.Itoa(c+1) + ":\n")
+			sb.WriteString(fx.String())
+		}
+	}
 
 	if len(p.Items) != 0 {
 		sb.WriteString("Items:\n")
