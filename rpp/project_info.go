@@ -196,7 +196,7 @@ func parseBypass(attr string) [3]int {
 	return bypass
 }
 
-// Parse float from an attribute string (e.g., "POSITION 1.234")
+// Parse float from an attribute string (e.g. "POSITION 1.234")
 func parseFloat(attr string) float64 {
 	parts := strings.Fields(attr)
 	if len(parts) > 1 {
