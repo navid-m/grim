@@ -6,14 +6,13 @@ import (
 	"strings"
 )
 
-// Token types
 const (
 	OPEN    = "<"
 	CLOSE   = ">"
 	NEWLINE = "\n"
 )
 
-// Element represents an element in the RPP file
+// An element in the RPP file
 type Element struct {
 	RootFileName string
 	Tag          string
@@ -40,14 +39,14 @@ func (e Element) String() string {
 	return toret
 }
 
-// Lexer is the structure to tokenize RPP content
+// Lexer to tokenize RPP content
 type Lexer struct {
 	input  string
 	tokens []Token
 	pos    int
 }
 
-// Token represents a lexeme
+// Represents a lexeme
 type Token struct {
 	Type  string
 	Value string
@@ -76,19 +75,14 @@ func tokenize(input string) []Token {
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
 
-		// Check if line starts with '<' (Opening tag)
 		if strings.HasPrefix(line, OPEN) {
 			tokens = append(tokens, Token{Type: "OPEN", Value: OPEN})
 			line = strings.TrimPrefix(line, OPEN)
 		}
-
-		// Check if line ends with '>' (Closing tag)
 		if strings.HasSuffix(line, CLOSE) {
 			line = strings.TrimSuffix(line, CLOSE)
 			tokens = append(tokens, Token{Type: "CLOSE", Value: CLOSE})
 		}
-
-		// Handle standalone lines like "TEMPO 70 4 4"
 		if line != "" {
 			tokens = append(tokens, Token{Type: "STRING", Value: line})
 		}
@@ -98,17 +92,17 @@ func tokenize(input string) []Token {
 	return tokens
 }
 
-// Parser parses tokens into an Element tree
+// Currently a lexer container
 type Parser struct {
 	lexer *Lexer
 }
 
-// NewParser initializes a new parser
+// Initialize a parser
 func NewParser(input string) *Parser {
 	return &Parser{lexer: NewLexer(input)}
 }
 
-// Parse starts the parsing process
+// Start the parsing process
 func (p *Parser) Parse() (*Element, error) {
 	token := p.lexer.NextToken()
 	if token.Type != "OPEN" {
@@ -132,28 +126,18 @@ func (p *Parser) parseElement() (*Element, error) {
 
 	for {
 		token := p.lexer.NextToken()
-
 		switch token.Type {
 		case "OPEN":
-			// Handle nested child elements
 			child, err := p.parseElement()
 			if err != nil {
 				return nil, err
 			}
 			root.Children = append(root.Children, child)
-
 		case "CLOSE":
-			// Return when encountering a closing tag
 			return root, nil
-
 		case "STRING":
-			// Handle both attributes and standalone tags like TEMPO
-			// We treat it as an attribute if no OPEN/CLOSE follows
 			root.Attrib = append(root.Attrib, token.Value)
-
 		case "NEWLINE":
-			// Ignore newlines
-
 		default:
 			return nil, fmt.Errorf("unexpected token type: %s", token.Type)
 		}
