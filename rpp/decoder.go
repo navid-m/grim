@@ -90,6 +90,7 @@ func tokenize(input string) []Token {
 
 		tokens = append(tokens, Token{Type: "NEWLINE", Value: NEWLINE})
 	}
+
 	return tokens
 }
 
