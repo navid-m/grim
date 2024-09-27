@@ -1,0 +1,518 @@
+<REAPER_PROJECT 0.1
+  <NOTES
+    |This is my original sample project for REAPER. It has since been deprecated. 
+    |
+    |sad.
+    |
+    |-Justin
+  >
+  PEAKGAIN 1.000000
+  GRID 1 20 1.000000 20 1.000000
+  TIMEMODE 1
+  TEMPO 120.000000 4.000000
+  CURSOR 0.000000
+  ZOOM 13.458799 0
+  VZOOM 2
+  AUTOMODE 0
+  LOOP 0
+  LOOPGRAN 0 4.000000
+  RECORD_PATH ""
+  <RECORD_CFG
+    ZXZhdxg=
+  >
+  RENDER_FILE ""
+  RENDER_FMT 0 2 0
+  RENDER_RANGE 1 0.000000 222.000000
+  RENDER_RESAMPLE 0
+  SAMPLERATE 48000 0
+  <RENDER_CFG
+  >
+  PLAYRATE 1.000000
+  SELECTION 39.912000 39.912000 0
+  MASTERMUTESOLO 0
+  MASTERTRACKVIEW 1
+  MASTERHWOUT 0
+  MASTER_VOLUME 0.986597 0.000000
+  MASTER_FX 0
+  <TRACK
+    NAME "click track"
+    VOLPAN 1.000000 0.000000
+    MUTESOLO 1 0
+    ISBUS 0
+    BUSCOMP 0
+    SEL 0
+    REC 0 0 0 0
+    FX 0
+    MAINSEND 1
+    HWOUT -1 0 1.000000 0.000000 0
+    <ITEM
+      POSITION 0.000000
+      LENGTH 54.000000
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "Click source"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE CLICK
+        BPM 120.000000
+        BPI 4
+        VOL 1.000000 0.250000
+        FREQ 1000 2000
+        BEATLEN 10
+      >
+    >
+  >
+  <TRACK
+    NAME "drum track"
+    VOLPAN 0.500000 0.000000
+    MUTESOLO 0 0
+    ISBUS 0
+    BUSCOMP 0
+    SEL 0
+    REC 0 0 0 0
+    FX 0
+    MAINSEND 1
+    HWOUT -1 0 1.000000 0.000000 0
+    <PANENV
+      ACT 1
+      ARM 0
+      PT 0.000000 0.000000
+      PT 8.152453 0.491525
+      PT 23.115816 -0.355932
+      PT 36.686038 0.423729
+      PT 47.727968 -0.389831
+      PT 51.958988 0.000000
+    >
+    <FXCHAIN
+      WNDRECT 151 366 647 385
+      SHOW 0
+    >
+    <ITEM
+      POSITION 0.000000
+      LENGTH 16.000000
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "drum loop 1"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 10.020710
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "120_loop_005.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 16.000000
+      LENGTH 4.027520
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "drum loop 2"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 4.540000
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "120_loop_005.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 20.016667
+      LENGTH 4.033333
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.048080 0.000000
+      CHANMODE 0
+      NAME "drum loop 1"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.033101
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 10.020710
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "120_loop_005.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 24.001920
+      LENGTH 7.998080
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.048080 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "drum loop 2"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 8.001920
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 4.540000
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "120_loop_005.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 32.000000
+      LENGTH 2.000000
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "drum loop 1"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 10.020710
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "120_loop_005.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 34.000000
+      LENGTH 7.993907
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "drum loop 2"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.006093
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 4.540000
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "120_loop_005.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 41.993907
+      LENGTH 12.338580
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 1 1.433272 0.000000
+      CHANMODE 0
+      NAME "drum loop 1"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 10.020710
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "120_loop_005.ogg"
+        >
+      >
+    >
+  >
+  <TRACK
+    NAME "bass"
+    VOLPAN 0.500000 0.000000
+    MUTESOLO 0 0
+    ISBUS 0
+    BUSCOMP 0
+    SEL 1
+    REC 0 3 1 0
+    FX 1
+    MAINSEND 1
+    HWOUT -1 0 1.000000 0.000000 0
+    <FXCHAIN
+      SHOW 0
+      BYPASS 0
+      <JS "Guitar/amp-model"
+        "Fender Bassman - Fender Bassman.wav" -9.000000 1.000000 0.000000 103.000000 256.000000 - -
+      >
+    >
+    <ITEM
+      POSITION 0.000000
+      LENGTH 16.000000
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.199168 0.000000
+      CHANMODE 0
+      NAME "bass intro loop"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 2.000000
+        STARTPOS 4.012416
+        OVERLAP 0.030000
+        <SOURCE VORBIS
+          FILE "02-bass-00.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 15.800832
+      LENGTH 20.199168
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.199168 0.000000
+      FADEOUT 0 0.178560 0.000000
+      CHANMODE 0
+      NAME "other bass loop"
+      VOLPAN 0.644068 0.000000 1.000000
+      SOFFS 3.800832
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 4.000000
+        STARTPOS 8.584301
+        OVERLAP 0.030000
+        <SOURCE VORBIS
+          FILE "02-bass-01.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 35.821440
+      LENGTH 18.511047
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.178560 0.000000
+      FADEOUT 1 1.318643 0.000000
+      CHANMODE 0
+      NAME "bass intro loop"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 1.821440
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 2.000000
+        STARTPOS 4.012416
+        OVERLAP 0.030000
+        <SOURCE VORBIS
+          FILE "02-bass-00.ogg"
+        >
+      >
+    >
+  >
+  <TRACK
+    NAME "phaserd guitar"
+    VOLPAN 0.230737 -0.374000
+    MUTESOLO 0 0
+    ISBUS 0
+    BUSCOMP 0
+    SEL 0
+    REC 0 3 1 0
+    FX 1
+    MAINSEND 1
+    HWOUT -1 0 1.000000 0.000000 0
+    <FXCHAIN
+      WNDRECT 847 319 647 385
+      SHOW 0
+      BYPASS 0
+      <JS "Guitar/phaser"
+        0.500000 440.000000 1600.000000 -3.000000 0.000000 - - -
+      >
+      BYPASS 0
+      <JS "Guitar/amp-model"
+        "Mesa Boogie Clean - Blackface Twin.wav" -11.000000 1.000000 0.000000 90.000000 256.000000 - -
+      >
+    >
+    <ITEM
+      POSITION 12.009600
+      LENGTH 3.968922
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "03-guitar-00.ogg loop"
+      VOLPAN 1.000000 0.000000 4.449208
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 4.012120
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "03-guitar-00.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 20.037741
+      LENGTH 3.968922
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "03-guitar-00.ogg loop"
+      VOLPAN 1.000000 0.000000 4.449208
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 4.012120
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "03-guitar-00.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 32.031078
+      LENGTH 3.968922
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "03-guitar-00.ogg loop"
+      VOLPAN 1.000000 0.000000 4.449208
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 1.000000
+        STARTPOS 4.012120
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "03-guitar-00.ogg"
+        >
+      >
+    >
+  >
+  <TRACK
+    NAME "distorted guitar"
+    VOLPAN 0.418188 0.376000
+    MUTESOLO 0 0
+    ISBUS 0
+    BUSCOMP 0
+    SEL 0
+    REC 0 3 1 0
+    FX 1
+    MAINSEND 1
+    HWOUT -1 0 1.000000 0.000000 0
+    <FXCHAIN
+      SHOW 0
+      BYPASS 0
+      <JS "Guitar/distort-fuzz"
+        6.980000 -31.000000 0.000000 -60.000000 0.000000 - - -
+      >
+      BYPASS 0
+      <JS "Guitar/amp-model"
+        "Marshall JCM800 - Marshall Stock 70.wav" -10.000000 1.000000 0.000000 204.000000 512.000000 - -
+      >
+    >
+    <ITEM
+      POSITION 3.851919
+      LENGTH 8.157681
+      LOOP 1
+      SEL 0
+      FADEIN 1 0.149299 0.000000
+      FADEOUT 1 0.709681 0.000000
+      CHANMODE 0
+      NAME "04-distorted guitar-01.ogg loop"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 3.820841
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 4.000000
+        STARTPOS 6.021225
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "04-distorted guitar-01.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 16.037741
+      LENGTH 4.000000
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "04-distorted guitar-00.ogg loop"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 2.000000
+        STARTPOS 5.846068
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "04-distorted guitar-00.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 24.006663
+      LENGTH 4.000000
+      LOOP 1
+      SEL 0
+      FADEIN 0 0.000000 0.000000
+      FADEOUT 0 0.000000 0.000000
+      CHANMODE 0
+      NAME "04-distorted guitar-00.ogg loop"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 0.000000
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 2.000000
+        STARTPOS 5.846068
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "04-distorted guitar-00.ogg"
+        >
+      >
+    >
+    <ITEM
+      POSITION 39.900000
+      LENGTH 12.119159
+      LOOP 1
+      SEL 0
+      FADEIN 1 0.192000 0.000000
+      FADEOUT 1 0.782540 0.000000
+      CHANMODE 0
+      NAME "04-distorted guitar-01.ogg loop"
+      VOLPAN 1.000000 0.000000 1.000000
+      SOFFS 3.880841
+      PLAYRATE 1.000000
+      <SOURCE SECTION
+        LENGTH 4.000000
+        STARTPOS 6.021225
+        OVERLAP 0.000000
+        <SOURCE VORBIS
+          FILE "04-distorted guitar-01.ogg"
+        >
+      >
+    >
+  >
+>
