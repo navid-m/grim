@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"grim/rpp"
 	"log"
 	"os"
@@ -15,5 +14,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(rpp.ParseProjectInfo(project))
+	rpp.ParseProjectInfo(project).AsTable().Print()
 }

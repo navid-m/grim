@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/fatih/color"
+	"github.com/rodaine/table"
 )
 
 // An FX chain item
@@ -354,6 +357,31 @@ func (p ProjectInfo) String() string {
 	}
 
 	return strings.TrimSuffix(sb.String(), "\n")
+}
+
+// Tabler implementation for ProjectInfo
+func (p ProjectInfo) AsTable() table.Table {
+	tbl := table.New("Trait", "Value")
+
+	headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
+	columnFmt := color.New(color.FgYellow).SprintfFunc()
+	tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
+
+	tbl.AddRow("Project Name", p.ProjectName)
+	tbl.AddRow("Original Platform", p.OriginalPlatform)
+	tbl.AddRow("Tempo", p.Tempo)
+	tbl.AddRow("Loop enabled", strconv.FormatBool(p.LoopEnabled))
+	tbl.AddRow("Sample Rate", p.SampleRate)
+	tbl.AddRow("Tracks", len(p.Tracks.TrackList))
+	tbl.AddRow("FX Chains", len(p.FXChains))
+
+	if len(p.Items) != 0 {
+		for _, item := range p.Items {
+			tbl.AddRow("Items", item.String())
+		}
+	}
+
+	return tbl
 }
 
 // Stringer implementation for FXChain
