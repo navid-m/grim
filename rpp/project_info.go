@@ -221,7 +221,7 @@ func parseName(attr string) string {
 	return ""
 }
 
-// Parse FILE path from an attribute string
+// Parse filepath from an attribute string
 func parseFile(attr string) string {
 	parts := strings.Split(attr, " ")
 	if len(parts) > 1 {
