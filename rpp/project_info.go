@@ -67,7 +67,7 @@ func cleanProjectName(s string) string {
 	return strings.Replace(initName, ".rpp", "", -1)
 }
 
-// Extract general project information from the Element tree
+// Get project information from the Element tree
 func ParseProjectInfo(element *Element) ProjectInfo {
 	info := ProjectInfo{
 		ProjectName:      cleanProjectName(element.RootFileName),
