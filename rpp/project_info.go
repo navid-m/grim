@@ -96,7 +96,7 @@ func parseSampleRate(attr string) int {
 			return rate
 		}
 	}
-	return 44100
+	return defaultSampleRate
 }
 
 // Parse items within the project
