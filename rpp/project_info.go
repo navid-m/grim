@@ -44,6 +44,7 @@ type Track struct {
 	GUID   string
 }
 
+// Bunch of tracks
 type Tracks struct {
 	TrackList []Track
 }
