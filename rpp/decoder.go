@@ -47,13 +47,13 @@ type Lexer struct {
 	pos    int
 }
 
-// Represents a lexeme
+// Some lexeme
 type Token struct {
 	Type  string
 	Value string
 }
 
-// NewLexer initializes a new lexer for the input
+// Create new lexer for the input
 func NewLexer(input string) *Lexer {
 	return &Lexer{input: input, tokens: tokenize(input)}
 }
