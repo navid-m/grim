@@ -364,8 +364,8 @@ func (p ProjectInfo) String() string {
 func (p ProjectInfo) AsTable() table.Table {
 	tbl := table.New("Trait", "Value")
 
-	headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
-	columnFmt := color.New(color.FgYellow).SprintfFunc()
+	headerFmt := color.New(color.FgHiBlack, color.Underline).SprintfFunc()
+	columnFmt := color.New(color.FgGreen).SprintfFunc()
 	tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
 
 	tbl.AddRow("Project Name", p.ProjectName)
