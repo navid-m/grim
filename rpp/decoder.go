@@ -117,7 +117,7 @@ func (p *Parser) Parse() (*Element, error) {
 	return element, nil
 }
 
-// Parse some element, supporting attributes and nested children
+// Parse some element, including attributes and nested children
 func (p *Parser) parseElement() (*Element, error) {
 	token := p.lexer.NextToken()
 	if token.Type != "STRING" {
