@@ -26,6 +26,7 @@ func (e Element) String() string {
 	if e.RootFileName != "" {
 		toret += fmt.Sprintln("Root File Name: ", e.RootFileName)
 	}
+
 	toret += fmt.Sprintln("Tag: ", e.Tag)
 
 	for i, attrib := range e.Attrib {
