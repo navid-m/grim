@@ -48,10 +48,13 @@ type ProjectInfo struct {
 }
 
 func cleanProjectName(s string) string {
+	initName := ""
 	if strings.LastIndex(s, "/") == -1 {
-		return strings.Replace(s, ".rpp", "", -1)
+		initName = s
+	} else {
+		initName = s[strings.LastIndex(s, "/")+1:]
 	}
-	return strings.Replace(s[strings.LastIndex(s, "/")+1:], ".rpp", "", -1)
+	return strings.Replace(initName, ".rpp", "", -1)
 }
 
 // Extract general project information from the Element tree
