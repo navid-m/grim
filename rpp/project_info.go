@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// Sub-Struct for FX chain items
+// An FX chain item
 type FXChain struct {
 	WndRect    [4]int
 	Show       int
@@ -18,7 +18,7 @@ type FXChain struct {
 	Vst        string
 }
 
-// Sub-Struct for Items
+// A track item
 type Item struct {
 	Position float64
 	Length   float64
@@ -29,13 +29,13 @@ type Item struct {
 	Playrate float64
 }
 
-// Sub-Struct for Source (FLAC, WAV, etc.)
+// (FLAC, WAV, etc.)
 type Source struct {
 	Type string
 	File string
 }
 
-// ProjectInfo contains general project information
+// General project information
 type ProjectInfo struct {
 	ProjectName      string
 	OriginalPlatform string
@@ -62,15 +62,14 @@ func ParseProjectInfo(element *Element) ProjectInfo {
 	info := ProjectInfo{
 		ProjectName:      cleanProjectName(element.RootFileName),
 		OriginalPlatform: "Unknown",
-		Tempo:            120.0, // Default tempo value
+		Tempo:            120.0,
 		LoopEnabled:      false,
-		SampleRate:       44100, // Default sample rate
+		SampleRate:       44100,
 		Tracks:           0,
 		Items:            []Item{},
 		FXChains:         []FXChain{},
 	}
 
-	// Determine the platform from the tag
 	if strings.Contains(element.Tag, "win64") {
 		info.OriginalPlatform = "Windows (win64)"
 	} else if strings.Contains(element.Tag, "darwin") {
@@ -79,14 +78,14 @@ func ParseProjectInfo(element *Element) ProjectInfo {
 		info.OriginalPlatform = "Linux"
 	}
 
-	// Traverse the element tree and extract information
 	for _, attr := range element.Attrib {
 		if strings.HasPrefix(attr, "TEMPO") {
-			info.Tempo = parseTempo(attr) // Parse tempo from the TEMPO attribute
+			info.Tempo = parseTempo(attr)
+		} else if strings.HasPrefix(attr, "SAMPLERATE") {
+			info.SampleRate = parseSampleRate(attr)
 		}
 	}
 
-	// Traverse children to gather additional information
 	for _, child := range element.Children {
 		switch child.Tag {
 		case "ITEM":
@@ -101,18 +100,29 @@ func ParseProjectInfo(element *Element) ProjectInfo {
 	return info
 }
 
+// Parse tempo from the tempo attribute
 func parseTempo(attr string) float64 {
 	parts := strings.Fields(attr)
 	if len(parts) > 1 {
-		// The second part should be the tempo value (BPM)
 		if tempo, err := strconv.ParseFloat(parts[1], 64); err == nil {
 			return tempo
 		}
 	}
-	// Return default tempo if parsing fails
 	return 120.0
 }
 
+// Parse sample rate from the SAMPLERATE attribute
+func parseSampleRate(attr string) int {
+	parts := strings.Fields(attr)
+	if len(parts) > 1 {
+		if rate, err := strconv.Atoi(parts[1]); err == nil {
+			return rate
+		}
+	}
+	return 44100
+}
+
+// Parse items within the project
 func parseItem(element *Element) Item {
 	item := Item{}
 	for _, attr := range element.Attrib {
@@ -129,7 +139,6 @@ func parseItem(element *Element) Item {
 			item.Guid = parseGUID(attr)
 		}
 	}
-	// Parse nested <SOURCE> element
 	for _, child := range element.Children {
 		if child.Tag == "SOURCE" {
 			item.Source = parseSource(child)
@@ -138,7 +147,7 @@ func parseItem(element *Element) Item {
 	return item
 }
 
-// parseSource extracts the source information
+// Parse sources for items
 func parseSource(element *Element) Source {
 	source := Source{}
 	for _, attr := range element.Attrib {
@@ -150,7 +159,7 @@ func parseSource(element *Element) Source {
 	return source
 }
 
-// parseFXChain extracts information from the <FXCHAIN> element
+// Parse FX chain information
 func parseFXChain(element *Element) FXChain {
 	chain := FXChain{}
 	for _, attr := range element.Attrib {
@@ -166,42 +175,70 @@ func parseFXChain(element *Element) FXChain {
 	return chain
 }
 
-// Example parse functions
+// Helper parse functions
+
+// Parse float from an attribute string (e.g., "POSITION 1.234")
 func parseFloat(attr string) float64 {
+	parts := strings.Fields(attr)
+	if len(parts) > 1 {
+		if value, err := strconv.ParseFloat(parts[1], 64); err == nil {
+			return value
+		}
+	}
 	return 0.0
 }
 
+// Parse GUID from an attribute string
 func parseGUID(attr string) string {
-	// Extract GUID from the attribute
-	return attr
+	return strings.TrimSpace(attr)
 }
 
+// Parse NAME from an attribute string
 func parseName(attr string) string {
-	// Extract NAME
-	return attr
+	parts := strings.Split(attr, " ")
+	if len(parts) > 1 {
+		return strings.Join(parts[1:], " ")
+	}
+	return ""
 }
 
+// Parse FILE path from an attribute string
 func parseFile(attr string) string {
-	// Extract FILE path
-	return attr
+	parts := strings.Split(attr, " ")
+	if len(parts) > 1 {
+		return parts[1]
+	}
+	return ""
 }
 
+// Parse window rectangle for FX chain (e.g., "WNDRECT 0 0 400 300")
 func parseWndRect(attr string) [4]int {
-	// Example parse for WNDRECT (returns dummy values)
+	parts := strings.Fields(attr)
+	if len(parts) >= 5 {
+		x1, _ := strconv.Atoi(parts[1])
+		y1, _ := strconv.Atoi(parts[2])
+		x2, _ := strconv.Atoi(parts[3])
+		y2, _ := strconv.Atoi(parts[4])
+		return [4]int{x1, y1, x2, y2}
+	}
 	return [4]int{0, 0, 0, 0}
 }
 
+// Parse FXID from an attribute string
 func parseFxId(attr string) string {
-	// Extract FXID
-	return attr
+	return strings.TrimSpace(attr)
 }
 
+// Parse preset name from an attribute string
 func parsePresetName(attr string) string {
-	// Extract preset name
-	return attr
+	parts := strings.Split(attr, " ")
+	if len(parts) > 1 {
+		return strings.Join(parts[1:], " ")
+	}
+	return ""
 }
 
-// Stringer implementation for pretty output
+// Stringer implementation for ProjectInfo
 func (p ProjectInfo) String() string {
 	var sb strings.Builder
 	sb.WriteString(fmt.Sprintf("Project Name: %s\n", p.ProjectName))
