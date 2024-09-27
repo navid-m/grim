@@ -6,6 +6,20 @@ import (
 	"github.com/navid-m/grim/rpp"
 )
 
+func TestOpenFile(t *testing.T) {
+	project, err := rpp.Load("sample_project.rpp")
+	if err != nil {
+		t.Error("Failure while loading test project: ", err)
+	}
+	projectInfo := rpp.ParseProjectInfo(project)
+	if projectInfo.Tempo != 120 || projectInfo.ProjectName != "sample_project" {
+		t.Errorf(
+			"Wrong information:\n\ttempo -> %f\n\tname -> %s",
+			projectInfo.Tempo, projectInfo.ProjectName,
+		)
+	}
+}
+
 func TestParseProjectInfo(t *testing.T) {
 	element := &rpp.Element{
 		RootFileName: "test_project.rpp",

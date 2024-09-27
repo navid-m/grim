@@ -8,3 +8,6 @@ vendor
 *.json
 *.rpp
 vendor
+*.ogg
+peaks
+backups
