@@ -84,7 +84,7 @@ func (t Track) String() string {
 	return fmt.Sprintf("No: %d, GUID: %s", t.Number, t.GUID)
 }
 
-// Stringer implementation for Track
+// Stringer implementation for FXChain
 func (t FXChain) String() string {
 	res := ""
 	for _, x := range t.Instances {
