@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	OPEN    = "<"
-	CLOSE   = ">"
-	NEWLINE = "\n"
+	lexOpen  = "<"
+	lexClose = ">"
+	lexNew   = "\n"
 )
 
 // Start parsing
@@ -42,19 +42,19 @@ func tokenize(input string) []Token {
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
 
-		if strings.HasPrefix(line, OPEN) {
-			tokens = append(tokens, Token{Type: "OPEN", Value: OPEN})
-			line = strings.TrimPrefix(line, OPEN)
+		if strings.HasPrefix(line, lexOpen) {
+			tokens = append(tokens, Token{Type: "OPEN", Value: lexOpen})
+			line = strings.TrimPrefix(line, lexOpen)
 		}
-		if strings.HasSuffix(line, CLOSE) {
-			line = strings.TrimSuffix(line, CLOSE)
-			tokens = append(tokens, Token{Type: "CLOSE", Value: CLOSE})
+		if strings.HasSuffix(line, lexClose) {
+			line = strings.TrimSuffix(line, lexClose)
+			tokens = append(tokens, Token{Type: "CLOSE", Value: lexClose})
 		}
 		if line != "" {
 			tokens = append(tokens, Token{Type: "STRING", Value: line})
 		}
 
-		tokens = append(tokens, Token{Type: "NEWLINE", Value: NEWLINE})
+		tokens = append(tokens, Token{Type: "NEWLINE", Value: lexNew})
 	}
 
 	return tokens
