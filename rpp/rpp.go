@@ -28,7 +28,6 @@ func LoadFromReader(r io.Reader) (*Element, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	parser := NewParser(string(content))
 	return parser.Parse()
 }
