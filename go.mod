@@ -1,4 +1,4 @@
-module grim
+module github.com/navid-m/grim
 
 go 1.22.5
 

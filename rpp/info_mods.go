@@ -130,7 +130,7 @@ func (p ProjectInfo) String() string {
 	}
 
 	if len(p.Items) != 0 {
-		sb.WriteString("Items:\n")
+		sb.WriteString("\nItems:\n")
 		for _, item := range p.Items {
 			sb.WriteString(item.String())
 		}

@@ -6,3 +6,5 @@ vendor
 *Backups
 *.txt
 *.json
+*.rpp
+vendor

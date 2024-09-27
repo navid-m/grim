@@ -1,9 +1,10 @@
 package main
 
 import (
-	"grim/rpp"
 	"log"
 	"os"
+
+	"github.com/navid-m/grim/rpp"
 )
 
 func main() {
