@@ -35,6 +35,16 @@ type Source struct {
 	File string
 }
 
+// Some track in the playlist
+type Track struct {
+	Number int
+	GUID   string
+}
+
+type Tracks struct {
+	TrackList []Track
+}
+
 // General project information
 type ProjectInfo struct {
 	ProjectName      string
@@ -42,7 +52,7 @@ type ProjectInfo struct {
 	Tempo            float64
 	LoopEnabled      bool
 	SampleRate       int
-	Tracks           int
+	Tracks           Tracks
 	Items            []Item
 	FXChains         []FXChain
 }
@@ -65,7 +75,7 @@ func ParseProjectInfo(element *Element) ProjectInfo {
 		Tempo:            120.0,
 		LoopEnabled:      false,
 		SampleRate:       44100,
-		Tracks:           0,
+		Tracks:           Tracks{},
 		Items:            []Item{},
 		FXChains:         []FXChain{},
 	}
@@ -86,17 +96,31 @@ func ParseProjectInfo(element *Element) ProjectInfo {
 		}
 	}
 
+	trackCount := 0
+
 	for _, child := range element.Children {
-		switch child.Tag {
-		case "ITEM":
+		switch {
+		case child.Tag == "ITEM":
 			item := parseItem(child)
 			info.Items = append(info.Items, item)
-		case "FXCHAIN":
+		case child.Tag == "FXCHAIN":
 			fxChain := parseFXChain(child)
 			info.FXChains = append(info.FXChains, fxChain)
+		case strings.HasPrefix(child.Tag, "TRACK"):
+			trackCount++
+			info.Tracks.TrackList = append(
+				info.Tracks.TrackList, Track{
+					Number: trackCount,
+					GUID: strings.Replace(
+						child.Tag,
+						"TRACK ",
+						"",
+						-1,
+					),
+				},
+			)
 		}
 	}
-
 	return info
 }
 
@@ -245,7 +269,7 @@ func (p ProjectInfo) String() string {
 	sb.WriteString(fmt.Sprintf("Tempo: %.2f\n", p.Tempo))
 	sb.WriteString(fmt.Sprintf("Loop enabled: %s\n", strconv.FormatBool(p.LoopEnabled)))
 	sb.WriteString(fmt.Sprintf("Sample Rate: %d\n", p.SampleRate))
-	sb.WriteString(fmt.Sprintf("Tracks: %d\n", p.Tracks))
+	sb.WriteString(fmt.Sprintf("Tracks: %d\n", len(p.Tracks.TrackList)))
 
 	if len(p.FXChains) != 0 {
 		sb.WriteString("FX Chains:\n")
@@ -275,6 +299,23 @@ func (f FXChain) String() string {
 func (i Item) String() string {
 	return fmt.Sprintf("Name: %s, Position: %.2f, Length: %.2f, Playrate: %.2f, Source: %s, GUID: %s",
 		i.Name, i.Position, i.Length, i.Playrate, i.Source.File, i.Guid)
+}
+
+// Stringer implementation for Track
+func (t Track) String() string {
+	return fmt.Sprintf("No: %d, GUID: %s", t.Number, t.GUID)
+}
+
+// Stringer implementation for Tracks
+func (t Tracks) String() string {
+	sep := strings.Repeat("-", 10)
+	res := "\n" + sep + "\n"
+	for _, x := range t.TrackList {
+		res += fmt.Sprintln("Track number: " + strconv.Itoa(x.Number))
+		res += fmt.Sprintln("GUID: " + x.GUID)
+		res += sep + "\n"
+	}
+	return res
 }
 
 // Stringer implementation for Source
