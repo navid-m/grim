@@ -264,5 +264,5 @@ func (p ProjectInfo) String() string {
 
 	}
 
-	return sb.String()
+	return strings.TrimSuffix(sb.String(), "\n")
 }
