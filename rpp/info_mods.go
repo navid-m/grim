@@ -67,7 +67,7 @@ type ProjectInfo struct {
 	FXChains         []FXChain
 }
 
-// Stringer implementation for FXChain
+// Stringer implementation for FXInstance
 func (f FXInstance) String() string {
 	return fmt.Sprintf("\t- Preset: %s, FXID: %s, VST: %s, WndRect: %v, Show: %d, LastSel: %d, Docked: %d, Bypass: %v",
 		f.PresetName, f.FxId, f.Vst, f.WndRect, f.Show, f.LastSel, f.Docked, f.Bypass)
